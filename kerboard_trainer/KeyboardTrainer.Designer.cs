@@ -133,6 +133,7 @@
             // regenerateButton
             // 
             regenerateButton.BackColor = Color.Transparent;
+            regenerateButton.BackgroundImage = keyboard_trainer.Properties.Resources.reloading;
             regenerateButton.BackgroundImageLayout = ImageLayout.Stretch;
             regenerateButton.Location = new Point(722, 23);
             regenerateButton.Name = "regenerateButton";
