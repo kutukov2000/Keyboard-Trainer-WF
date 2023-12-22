@@ -188,7 +188,7 @@
             wordsNumericUpDown.TabIndex = 15;
             wordsNumericUpDown.Value = new decimal(new int[] { 10, 0, 0, 0 });
             // 
-            // Form1
+            // KeyboardTrainer
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -201,7 +201,7 @@
             Controls.Add(panel1);
             Controls.Add(languageComboBox);
             Controls.Add(timeNumericUpDown);
-            Name = "Form1";
+            Name = "KeyboardTrainer";
             Text = "Form1";
             FormClosing += Form1_FormClosing;
             ((System.ComponentModel.ISupportInitialize)timeNumericUpDown).EndInit();

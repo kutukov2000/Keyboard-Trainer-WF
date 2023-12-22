@@ -4,13 +4,13 @@ namespace kerboard_trainer
 {
     public partial class KeyboardTrainer : Form
     {
-        List<ResultClass> resultsList = new List<ResultClass>();
+        private List<ResultClass> resultsList = new List<ResultClass>();
 
         private DateTime _start;
         private bool isTimed = false;
         private int _duration = 15;
-
         private int errorCount;
+
         public KeyboardTrainer()
         {
             InitializeComponent();
@@ -21,10 +21,11 @@ namespace kerboard_trainer
 
             text_label.Text = ReadWords((int)wordsNumericUpDown.Value);
         }
+
         public string ReadWords(int countOfWords)
         {
-            MessageBox.Show(Path.Combine(Environment.CurrentDirectory, @"Words\english.txt"));
             string filePath = "";
+
             if (languageComboBox.SelectedItem == "ENG")
                 filePath = Path.Combine(Environment.CurrentDirectory, @"Words\english.txt");
             else
@@ -47,8 +48,10 @@ namespace kerboard_trainer
                     result += words[index] + " ";
                 }
             }
+
             return result;
         }
+
         private void HighlightErrors(string expected, RichTextBox inputTextBox)
         {
             errorCount = 0;
@@ -62,18 +65,21 @@ namespace kerboard_trainer
             expected = expected.Replace("\n", "");
             for (int i = 0; i < inputTextBox.Text.Length; i++)
             {
-                if (inputTextBox.Text[i] != expected[i])
+                if (inputTextBox.Text[i] == expected[i])
                 {
-                    inputTextBox.SelectionStart = i;
-                    inputTextBox.SelectionLength = 1;
-                    inputTextBox.SelectionColor = Color.Red;
-
-                    errorCount++;
+                    continue;
                 }
+
+                inputTextBox.SelectionStart = i;
+                inputTextBox.SelectionLength = 1;
+                inputTextBox.SelectionColor = Color.Red;
+
+                errorCount++;
             }
             inputTextBox.ForeColor = Color.Black;
             inputTextBox.SelectionStart = cursorPosition;
         }
+
         private void Regenerate()
         {
             richTextBox1.Enabled = true;
@@ -84,6 +90,7 @@ namespace kerboard_trainer
             timer1.Stop();
             isTimed = false;
         }
+
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
             if (isTimed == false)
@@ -92,34 +99,40 @@ namespace kerboard_trainer
                 timer1.Start();
                 isTimed = true;
             }
+
             HighlightErrors(text_label.Text, richTextBox1);
         }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             TimeSpan duration = DateTime.Now - _start;
             timer_label.Text = duration.ToString("ss");
-            if (duration.TotalSeconds > _duration || richTextBox1.Text.Length == text_label.Text.Length - 2)
+
+            if (duration.TotalSeconds <= _duration && richTextBox1.Text.Length != text_label.Text.Length - 2)
             {
-                timer1.Stop();
-                richTextBox1.Enabled = false;
-                isTimed = false;
-
-                int countOfWords = richTextBox1.Text.Split(' ').Count();
-
-                int wpm = countOfWords * (60 / (int)duration.TotalSeconds);
-                int accuracy = (int)(((double)(richTextBox1.Text.Length - errorCount) / richTextBox1.Text.Length) * 100);
-
-                ResultClass result = new ResultClass();
-                result.wpm = wpm;
-                result.accuracy = accuracy;
-                result.language = languageComboBox.Text;
-
-                ResultForm form = new ResultForm(result);
-                form.Show();
-
-                resultsList.Add(result);
+                return;
             }
+
+            timer1.Stop();
+            richTextBox1.Enabled = false;
+            isTimed = false;
+
+            int countOfWords = richTextBox1.Text.Split(' ').Count();
+
+            int wpm = countOfWords * (60 / (int)duration.TotalSeconds);
+            int accuracy = (int)(((double)(richTextBox1.Text.Length - errorCount) / richTextBox1.Text.Length) * 100);
+
+            ResultClass result = new ResultClass();
+            result.wpm = wpm;
+            result.accuracy = accuracy;
+            result.language = languageComboBox.Text;
+
+            ResultForm form = new ResultForm(result);
+            form.Show();
+
+            resultsList.Add(result);
         }
+
         public void LoadHistory()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<ResultClass>));
@@ -130,6 +143,7 @@ namespace kerboard_trainer
             resultsList = (List<ResultClass>)serializer.Deserialize(reader);
             reader.Close();
         }
+
         private void timeNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
             _duration = (int)timeNumericUpDown.Value;
@@ -139,6 +153,7 @@ namespace kerboard_trainer
         {
             Regenerate();
         }
+
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<ResultClass>));
