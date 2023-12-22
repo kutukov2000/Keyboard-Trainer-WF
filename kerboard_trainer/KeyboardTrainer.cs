@@ -23,11 +23,12 @@ namespace kerboard_trainer
         }
         public string ReadWords(int countOfWords)
         {
+            MessageBox.Show(Path.Combine(Environment.CurrentDirectory, @"Words\english.txt"));
             string filePath = "";
             if (languageComboBox.SelectedItem == "ENG")
-                filePath = @"C:\Users\Lenovo\source\repos\kerboard_trainer\kerboard_trainer\Words\english.txt";
+                filePath = Path.Combine(Environment.CurrentDirectory, @"Words\english.txt");
             else
-                filePath = @"C:\Users\Lenovo\source\repos\kerboard_trainer\kerboard_trainer\Words\ukrainian.txt";
+                filePath = Path.Combine(Environment.SystemDirectory, @"Words\ukrainian.txt");
 
             string[] words = File.ReadAllLines(filePath);
             Random rand = new Random();
@@ -123,7 +124,9 @@ namespace kerboard_trainer
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<ResultClass>));
 
-            StreamReader reader = new StreamReader(@"C:\Users\Lenovo\source\repos\kerboard_trainer\kerboard_trainer\history.xml");
+            string path = Path.Combine(Environment.CurrentDirectory, "history.xml");
+
+            StreamReader reader = new StreamReader(path);
             resultsList = (List<ResultClass>)serializer.Deserialize(reader);
             reader.Close();
         }
@@ -140,7 +143,9 @@ namespace kerboard_trainer
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<ResultClass>));
 
-            StreamWriter writer = new StreamWriter(@"C:\Users\Lenovo\source\repos\kerboard_trainer\kerboard_trainer\history.xml");
+            string path = Path.Combine(Environment.CurrentDirectory, "history.xml");
+
+            StreamWriter writer = new StreamWriter(path);
             serializer.Serialize(writer, resultsList);
             writer.Close();
         }
