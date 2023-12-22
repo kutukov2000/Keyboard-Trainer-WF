@@ -122,10 +122,7 @@ namespace kerboard_trainer
             int wpm = countOfWords * (60 / (int)duration.TotalSeconds);
             int accuracy = (int)(((double)(richTextBox1.Text.Length - errorCount) / richTextBox1.Text.Length) * 100);
 
-            ResultClass result = new ResultClass();
-            result.wpm = wpm;
-            result.accuracy = accuracy;
-            result.language = languageComboBox.Text;
+            ResultClass result = new(wpm, accuracy, languageComboBox.Text);
 
             ResultForm form = new ResultForm(result);
             form.Show();

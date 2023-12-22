@@ -1,20 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace kerboard_trainer
+﻿namespace kerboard_trainer
 {
     [Serializable]
     public class ResultClass
     {
-        public int wpm { get; set; }
-        public int accuracy { get; set; }
-        public string language { get; set; }
+        public int Wpm { get; set; }
+        public int Accuracy { get; set; }
+        public string Language { get; set; }
+
+        public ResultClass()
+        {
+            Wpm = 0;
+            Accuracy = 0;
+            Language = string.Empty;
+        }
+
+        public ResultClass(int wpm, int accurancy, string language)
+        {
+            Wpm = wpm;
+            Accuracy = accurancy;
+            Language = language;
+        }
+
         public override string ToString()
         {
-            return $"WPM {wpm} : {accuracy} : {language}";
+            return $"WPM {Wpm} | Accuracy {Accuracy}% | {Language}";
         }
     }
 }

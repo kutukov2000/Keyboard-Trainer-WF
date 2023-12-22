@@ -6,8 +6,8 @@
         {
             InitializeComponent();
 
-            wpmLabel.Text = result.wpm.ToString();
-            accuracyLabel.Text = result.accuracy.ToString() + "%";
+            wpmLabel.Text = result.Wpm.ToString();
+            accuracyLabel.Text = result.Accuracy.ToString() + "%";
         }
 
         private void button1_Click(object sender, EventArgs e)

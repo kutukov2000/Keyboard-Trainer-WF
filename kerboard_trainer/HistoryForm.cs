@@ -17,8 +17,8 @@
             foreach (ResultClass result in results)
             {
                 historyListBox.Items.Add(result);
-                averadgeWPM += result.wpm;
-                averadgeAccuracy += result.accuracy;
+                averadgeWPM += result.Wpm;
+                averadgeAccuracy += result.Accuracy;
             }
 
             wpmLabel.Text = (averadgeWPM / results.Count).ToString();
